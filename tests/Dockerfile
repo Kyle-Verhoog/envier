@@ -30,4 +30,8 @@ RUN git clone --depth 1 --branch v2.3.21 https://github.com/pyenv/pyenv "${PYENV
   && cd /work \
   && pyenv local | xargs -L 1 pyenv install \
   && cd -
+
+ENV PIP_ROOT_USER_ACTION=ignore
+RUN pip install riot==0.18.0  # last version to support Python <3.6
+RUN git config --global --add safe.directory '*'  # allow git to work in /work
 CMD ["/bin/bash"]

@@ -1,9 +1,15 @@
 from setuptools import find_packages
 from setuptools import setup
+from packaging import version
 
 
 with open("README.md", "r") as f:
     long_description = f.read()
+
+
+with open("tests/.python-version", "r") as f:
+    python_versions = list(map(version.Version, f.read().splitlines()))
+min_python_version = sorted(python_versions)[0]
 
 
 setup(
@@ -14,19 +20,14 @@ setup(
     author_email="dev@datadoghq.com",
     classifiers=[
         "Programming Language :: Python",
-        "Programming Language :: Python :: 2.7",
-        "Programming Language :: Python :: 3.5",
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
-        "Programming Language :: Python :: 3.9",
-        "Programming Language :: Python :: 3.10",
+    ] + [
+        "Programming Language :: Python :: %s.%s" % (v.major, v.minor) for v in sorted(python_versions)
     ],
     long_description=long_description,
     long_description_content_type="text/markdown",
     license="MIT",
     packages=find_packages(exclude=["tests*"]),
-    python_requires=">=2.7",
+    python_requires=">=%s.%s" % (min_python_version.major, min_python_version.minor),
     install_requires=["typing; python_version<'3.5'"],
     extras_require={"mypy": ["mypy"]},
     setup_requires=["setuptools_scm"],
