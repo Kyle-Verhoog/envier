@@ -16,6 +16,6 @@ jobs:
       - uses: docker/build-push-action@v4
         with:
           push: true
-          tags: 'ghcr.io/datadog/envier/test:${{ github.sha }}'
+          tags: 'ghcr.io/kyle-verhoog/envier/test:${{ github.sha }}'
           platforms: 'linux/amd64,linux/arm64/v8'
           context: ./tests/
